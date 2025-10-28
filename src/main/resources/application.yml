@@ -1,0 +1,14 @@
+server:
+  port: 9999
+spring:
+  profiles:
+    active: dev
+  application:
+    name: spring-ai-code
+  ai:
+    deepseek:
+      api-key: ********
+      chat:
+        options:
+          model: deepseek-chat
+
