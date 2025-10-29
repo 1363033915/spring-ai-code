@@ -46,6 +46,13 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+		<dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.36</version>
+            <optional>true</optional>
+        </dependency>
+
 		  <dependency>
              <groupId>org.springframework.ai</groupId>
              <artifactId>spring-ai-bom</artifactId>
@@ -70,6 +77,18 @@
             <artifactId>spring-ai-autoconfigure-model-chat-client</artifactId>
             <version>1.0.3</version>
         </dependency>
+
+		<dependency>
+        	<groupId>dev.langchain4j</groupId>
+       	 	<artifactId>langchain4j-open-ai</artifactId>
+        	<version>1.0.0-beta3</version>
+    	</dependency>
+
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+    		<artifactId>langchain4j-spring-boot-starter</artifactId>
+    		<version>1.0.0-beta3</version>
+		</dependency>
 	</dependencies>
 
 	<build>
