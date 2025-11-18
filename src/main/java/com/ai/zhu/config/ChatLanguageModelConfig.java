@@ -1,7 +1,8 @@
 package com.ai.zhu.config;
 
-import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.model.chat.StreamingChatModel;
+import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConfigurationProperties(prefix = "langchain4j.open-ai.chat-model")
+@Data
 public class ChatLanguageModelConfig {
 
     private String baseUrl;
@@ -28,16 +30,20 @@ public class ChatLanguageModelConfig {
 
     private Boolean logResponses = false;
 
+    /**
+     * 流式模型
+     */
     @Bean
-    public ChatLanguageModel chatLanguageModel() {
-          return OpenAiChatModel.builder()
+    public StreamingChatModel streamingChatModelPrototype() {
+        return OpenAiStreamingChatModel.builder()
                 .apiKey(apiKey)
-                .modelName(modelName)
                 .baseUrl(baseUrl)
+                .modelName(modelName)
                 .maxTokens(maxTokens)
                 .temperature(temperature)
                 .logRequests(logRequests)
                 .logResponses(logResponses)
                 .build();
     }
+
 }

@@ -1,10 +1,14 @@
 package com.ai.zhu.service;
 
+import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.StreamingChatModel;
+import dev.langchain4j.service.AiServices;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -31,6 +35,8 @@ public class AiCodeGeneratorService {
     @Value("classpath:prompt/codegen-vue-project-system-prompt.txt")
     private Resource vueProjectSystemPromptResource;
 
+    @Autowired
+    private StreamingChatModel streamingChatModel;
 
     public AiCodeGeneratorService(ChatClient.Builder builder) {
         this.chatClient = builder.build();
@@ -65,6 +71,22 @@ public class AiCodeGeneratorService {
         // 解析 AI 响应，这里假设 AI 返回 JSON 格式
         // 实际使用时可能需要更复杂的解析逻辑
         return parseHtmlResponse(htmlCode);
+    }
+
+    public HtmlCodeResult generateHtmlCodeLangChain(String userMessage) {
+        AiLangChainGeneratorService build = AiServices
+                .builder(AiLangChainGeneratorService.class).
+                streamingChatModel(streamingChatModel)
+                .build();
+        return build.generateHtmlCode(userMessage);
+    }
+
+    public Flux<String> generateHtmlCodeLangChainStream(String userMessage) {
+        AiLangChainGeneratorService build = AiServices
+                .builder(AiLangChainGeneratorService.class)
+                .streamingChatModel(streamingChatModel)
+                .build();
+        return build.generateHtmlCodeStream(userMessage);
     }
 
     /**
